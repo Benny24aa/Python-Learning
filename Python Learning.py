@@ -1,2 +1,3 @@
 import pandas as pd
-df = pd.read_csv('rank_list.csv')
+Diagnostics = pd.read_csv('diagnostics_by_board_september_2024.csv')
+Diagnostics = Diagnostics[Diagnostics['HBT'] == "S08000015"]
