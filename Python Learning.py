@@ -1,5 +1,7 @@
 import pandas as pd
 
+import numpy as np
+from datetime import datetime
 
 Diagnostics = pd.read_csv('diagnostics_by_board_september_2024.csv') #### Reading Data
 Diagnostics = Diagnostics[Diagnostics['HBT'] == "S08000015"] ### Filtering
@@ -17,3 +19,6 @@ HB_Look_Up = pd.DataFrame({'HBT':['S08000015'],
 'HBName':['A&G']})
 
 Diagnostics = pd.merge(Diagnostics, HB_Look_Up, how='left', on ='HBT') #### Using Pandas to join HBT to HB Name for test
+
+
+Diagnostics = Diagnostics.rename(columns={'HBName': 'HealthBoard' })
