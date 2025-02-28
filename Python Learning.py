@@ -22,3 +22,27 @@ Diagnostics = pd.merge(Diagnostics, HB_Look_Up, how='left', on ='HBT') #### Usin
 
 
 Diagnostics = Diagnostics.rename(columns={'HBName': 'HealthBoard' })
+
+Diagnostics ['NumberOnList'] = pd.to_numeric(Diagnostics['NumberOnList'], errors='coerce')
+
+
+
+#### Testing allocation of new column based on pre-set conditions giving out trues and falses based if condition is met
+Diagnostics = Diagnostics.assign(
+    Zero =Diagnostics['NumberOnList'] == 0,
+    Normal =(Diagnostics['NumberOnList'] > 0) & (Diagnostics['NumberOnList'] <= 15000),
+    Bad =(Diagnostics['NumberOnList'] > 15000) & (Diagnostics['NumberOnList'] <= 15500),
+   Very_Bad =Diagnostics['NumberOnList'] > 15500
+)
+
+Diagnostics = Diagnostics.assign(
+    Activity_Type=pd.Series(
+        ['Zero', 'Normal', 'Bad', 'Very_Bad']
+    ).where(
+        [Diagnostics['Zero'],
+         Diagnostics['Normal'],
+         Diagnostics['Bad'],
+         Diagnostics['Very_Bad']], 
+        inplace=False
+    )
+)
